@@ -36,7 +36,8 @@ const getBlog = async (req, res) => {
     }
 
     for (let img of blogdata) {
-      img.image = "http://localhost:4000/temp/" + img.image;
+      img.image =
+        "https://blog-mern-backend-2s77.onrender.com/temp/" + img.image;
     }
 
     return res
@@ -106,7 +107,8 @@ const getBlogById = async (req, res) => {
     return res.status(404).json({ message: "blog not found" });
   }
 
-  getdata.image = "http://localhost:4000/temp/" + getdata.image;
+  getdata.image =
+    "https://blog-mern-backend-2s77.onrender.com/temp/" + getdata.image;
 
   return res
     .status(200)
