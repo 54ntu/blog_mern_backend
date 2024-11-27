@@ -54,15 +54,19 @@ const deleteBlog = async (req, res) => {
 
   try {
     if (!isValidObjectId(id)) {
-      return res.status(400).json(400, { message: "id is not valid" });
+      return res.status(400).json({ message: "id is not valid" });
     }
 
-    const response = await Blog.findByIdAndDelete(id);
-    if (!response) {
-      return res.status(200).json({ message: "data deleted successfully" });
+    const deletedblog = await Blog.findByIdAndDelete(id);
+
+    if (!deleteBlog) {
+      return res.status(404).json({
+        message: "blog with that is not found",
+      });
     }
+    return res.status(200).json({ message: "blog deleted successfully...!!!" });
   } catch (error) {
-    return res.status(500).json(500, { message: "error deleting data" });
+    return res.status(500).json({ message: "error deleting data" });
   }
 };
 
@@ -82,7 +86,7 @@ const updateblog = async (req, res) => {
   });
 
   if (updateddata) {
-    return res.status(200).json(200, {
+    return res.status(200).json({
       message: "data updated successfully..!!",
       data: updateddata,
     });
@@ -91,7 +95,9 @@ const updateblog = async (req, res) => {
 
 const getBlogById = async (req, res) => {
   const { id } = req.params;
-  if (!isValidObjectId) {
+  console.log(`id value getting from frontend is : ${id}`);
+
+  if (!isValidObjectId(id)) {
     return res.status(400).json({ message: "invalid object id " });
   }
 
@@ -99,6 +105,8 @@ const getBlogById = async (req, res) => {
   if (!getdata) {
     return res.status(404).json({ message: "blog not found" });
   }
+
+  getdata.image = "http://localhost:4000/temp/" + getdata.image;
 
   return res
     .status(200)
